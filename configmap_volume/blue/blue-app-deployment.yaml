@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: blue-web
+  name: blue-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue-web
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: blue-web
+    spec:
+      volumes:
+      - name: web-config
+        configMap:
+          name: blue-web-cm
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: web-config
+status: {}
